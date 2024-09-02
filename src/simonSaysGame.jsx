@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./simonSaysGame.css";
-import { func } from "prop-types";
 
 function randomColor() {
   const randomIndex = Math.floor(Math.random() * 4);
@@ -21,13 +20,38 @@ export function SimonSaysGame() {
 
   function addGameColor() {
     const newColor = randomColor();
-    const newGameColors = [...gameColors];
-    newGameColors.push(newColor);
-
+    const newGameColors = [...gameColors, newColor];
     setGameColors(newGameColors);
   }
 
-  function handleClick(color) {}
+  function handleClick(color) {
+    if (currentGameState !== "playing") {
+      return;
+    }
+    const currentIndex = userColors.length;
+    const newUserColors = [...userColors, color];
+    setUserColors(newUserColors);
+
+    const expectedGameColor = gameColors[currentIndex];
+
+    if (color !== expectedGameColor) {
+      setCurrentGameState("game-over");
+      return;
+    }
+
+    if (newUserColors.length === gameColors.length) {
+      setUserColors([]);
+      const newRandomColor = randomColor();
+      const updatedGameColors = [...gameColors, newRandomColor];
+      setGameColors(updatedGameColors);
+    }
+  }
+
+  function resetGame() {
+    setGameColors([]);
+    setUserColors([]);
+    setCurrentGameState("not-started");
+  }
 
   return (
     <div>
@@ -36,6 +60,7 @@ export function SimonSaysGame() {
       <button onClick={() => handleClick("blue")}>BLUE</button>
       <button onClick={() => handleClick("yellow")}>YELLOW</button>
       <button onClick={startGame}>Start Game</button>
+      <button onClick={resetGame}>Reset Game</button>
 
       <p>Game Colors</p>
       <pre>{JSON.stringify(gameColors, null, 2)}</pre>
