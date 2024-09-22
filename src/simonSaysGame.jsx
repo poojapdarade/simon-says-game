@@ -47,7 +47,7 @@ export function SimonSaysGame() {
     setAnimationColors(newGameColorsReversed);
   }
 
-  function   handleClick(color) {
+  function handleClick(color) {
     if (currentGameState !== "playing") {
       return;
     }
@@ -60,6 +60,8 @@ export function SimonSaysGame() {
     if (color !== expectedGameColor) {
       setIsGameOver(true);
       setCurrentGameState("game-over");
+      setAnimatedColor("");
+      setAnimationColors([]);
       return;
     }
 

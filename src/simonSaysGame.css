@@ -23,10 +23,12 @@ body {
   grid-template-rows: repeat(2, 150px);
   gap: 2px;
 }
+
 .quadrant {
   width: 150px;
   height: 150px;
   transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
 }
 
 .red {
@@ -43,9 +45,21 @@ body {
 }
 
 .quadrant.glow {
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-  transform: scale(1.05);
+  animation: glowEffect 1s infinite;
 }
+
+@keyframes glowEffect {
+  0% {
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
 .quadrant:focus,
 .quadrant:active {
   box-shadow: 0 0 20px rgba(255, 255, 255, 1);
